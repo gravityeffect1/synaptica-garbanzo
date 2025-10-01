@@ -1,0 +1,95 @@
+<div class="app" id="app">
+  <header>
+    <h1>Pixel Neuroanatomy Mapper</h1>
+    <div class="controls">
+      <div class="modes" role="tablist" aria-label="Overlay modes">
+        <button class="mode-btn active" data-mode="arterial" role="tab" aria-selected="true">Arterial</button>
+        <button class="mode-btn" data-mode="functional" role="tab" aria-selected="false">Functional</button>
+        <button class="mode-btn" data-mode="lesions" role="tab" aria-selected="false">Lesions</button>
+      </div>
+      <div class="toggles">
+        <label class="toggle">
+          <input type="checkbox" id="gridToggle" />
+          <span>Grid (L)</span>
+        </label>
+        <label class="toggle">
+          <select id="dominance" aria-label="Language dominance">
+            <option value="L" selected>Dominance: Left</option>
+            <option value="R">Dominance: Right</option>
+          </select>
+        </label>
+        <button id="studyBtn" class="ghost">Study Mode</button>
+        <button id="resetBtn" class="ghost">Reset</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="canvas-wrap" aria-label="Pixel brain map">
+      <canvas id="brain" width="960" height="720" aria-label="Pixel brain canvas"></canvas>
+      <div id="tooltip" class="tooltip" role="tooltip" hidden></div>
+      <div class="legend" id="legend" aria-live="polite"></div>
+    </section>
+
+    <aside class="panel" aria-live="polite">
+      <h2>Details</h2>
+
+      <!-- Tab header -->
+      <div class="tabs" role="tablist" aria-label="Region info">
+        <button class="tab active" data-pane="overview" role="tab" aria-selected="true">Overview</button>
+        <button class="tab" data-pane="clinical" role="tab" aria-selected="false">Clinical</button>
+        <button class="tab" data-pane="research" role="tab" aria-selected="false">Research</button>
+        <button class="tab" data-pane="fun" role="tab" aria-selected="false">Fun Facts</button>
+      </div>
+
+      <!-- Tab panes -->
+      <div id="pane-overview" class="pane active"></div>
+      <div id="pane-clinical" class="pane"></div>
+      <div id="pane-research" class="pane"></div>
+      <div id="pane-fun" class="pane"></div>
+
+      <details style="margin-top:10px">
+        <summary>Shortcuts</summary>
+        <ul>
+          <li><kbd>L</kbd> toggle grid</li>
+          <li><kbd>1</kbd>/<kbd>2</kbd>/<kbd>3</kbd> switch modes</li>
+          <li><kbd>R</kbd> reset selection</li>
+          <li><kbd>S</kbd> toggle Study Mode</li>
+        </ul>
+      </details>
+      <p class="disclaimer">
+        Educational visualization. Territories simplified for a pixel demo—refine shapes/content as needed.
+      </p>
+    </aside>
+  </main>
+
+  <footer>
+    <small>© Pixel Neuroanatomy Mapper • HTML/Canvas • No libraries</small>
+  </footer>
+
+  <!-- Study Modal -->
+  <div id="modal" class="modal" hidden aria-hidden="true" role="dialog" aria-label="Study Mode">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h3>Study Mode</h3>
+        <button id="modalClose" class="ghost small" aria-label="Close">✕</button>
+      </div>
+      <div class="modal-section" id="flashcard">
+        <h4>Flashcard</h4>
+        <div class="card" id="cardFront"></div>
+        <button id="revealBtn" class="ghost small">Reveal</button>
+        <div class="card" id="cardBack" hidden></div>
+      </div>
+      <div class="modal-section" id="quiz">
+        <h4>Quick Quiz <span id="timer"></span></h4>
+        <div id="quizQ"></div>
+        <div id="quizChoices" class="choices"></div>
+        <div id="quizFeedback" class="feedback"></div>
+        <div class="quiz-actions">
+          <button id="nextQ" class="ghost small">Next</button>
+          <button id="restartQ" class="ghost small">Restart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
