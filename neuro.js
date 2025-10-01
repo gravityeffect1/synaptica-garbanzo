@@ -349,8 +349,19 @@ function hemiOf(x){ return x < Math.floor(GRID_W/2) ? 'L' : (x > Math.floor(GRID
 (function buildFunctional(){
   for (const key of brainMask) {
     const [x,y] = key.split(',').map(Number);
-    const band = Math.abs(x - Math.floor(GRID_W/2)) <= 5 && (y>=12 && y<=26);
-    if (band) (x < Math.floor(GRID_W/2)) ? maps.functional.set(key,'M1 (Primary Motor)') : maps.functional.set(key,'S1 (Primary Somatosensory)');
+    const mid = Math.floor(GRID_W/2);
+    const hemi = hemiOf(x);
+
+    // Correctly map M1 (anterior) and S1 (posterior) in BOTH hemispheres
+    if (hemi === 'L' && y >= 10 && y <= 28) {
+      if (x >= mid - 8 && x < mid - 4) maps.functional.set(key, 'M1 (Primary Motor)');
+      if (x >= mid - 4 && x < mid) maps.functional.set(key, 'S1 (Primary Somatosensory)');
+    }
+    if (hemi === 'R' && y >= 10 && y <= 28) {
+      if (x > mid && x <= mid + 4) maps.functional.set(key, 'S1 (Primary Somatosensory)');
+      if (x > mid + 4 && x <= mid + 8) maps.functional.set(key, 'M1 (Primary Motor)');
+    }
+
     if (x >= Math.floor(GRID_W*0.7) && y>=12 && y<=26) maps.functional.set(key,'V1 (Primary Visual)');
     if (y >= 18 && y <= 22 && x >= Math.floor(GRID_W*0.38) && x <= Math.floor(GRID_W*0.62)) maps.functional.set(key,'Auditory Cortex');
   }
